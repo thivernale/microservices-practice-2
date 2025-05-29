@@ -1,0 +1,26 @@
+TRUNCATE TABLE products;
+
+INSERT INTO products (id, code, name, description, image_url, price)
+VALUES (1, 'book_001', 'The Wedding People', 'A contemporary novel exploring the complexities of love and commitment.',
+        'https://covers.openlibrary.org/b/id/123456-L.jpg', 19.99),
+       (2, 'book_002', 'The Women', 'A historical fiction novel delving into the lives of women during wartime.',
+        'https://covers.openlibrary.org/b/id/234567-L.jpg', 22.50),
+       (3, 'book_003', 'The God of the Woods', 'A mystery thriller set in a secluded forest, unraveling dark secrets.',
+        'https://covers.openlibrary.org/b/id/345678-L.jpg', 18.75),
+       (4, 'book_004', 'Funny Story', 'A romantic comedy that blends humor with heartfelt moments.',
+        'https://covers.openlibrary.org/b/id/456789-L.jpg', 17.99),
+       (5, 'book_005', 'House of Flame and Shadow', 'A fantasy novel filled with magic, intrigue, and adventure.',
+        'https://covers.openlibrary.org/b/id/567890-L.jpg', 24.99),
+       (6, 'book_006', 'Somewhere Beyond the Sea',
+        'A heartwarming tale of love and loss set against the backdrop of the sea.',
+        'https://covers.openlibrary.org/b/id/678901-L.jpg', 20.00),
+       (7, 'book_007', 'The Anxious Generation', 'A nonfiction exploration of the challenges faced by today''s youth.',
+        'https://covers.openlibrary.org/b/id/789012-L.jpg', 15.50),
+       (8, 'book_008', 'His Name is George Floyd', 'A biography detailing the life and impact of George Floyd.',
+        'https://covers.openlibrary.org/b/id/890123-L.jpg', 21.00),
+       (9, 'book_009', 'The Trayvon Generation',
+        'An insightful look into the cultural and social implications of Trayvon Martin''s death.',
+        'https://covers.openlibrary.org/b/id/901234-L.jpg', 18.00),
+       (10, 'book_010', 'How the Word Is Passed',
+        'A historical journey exploring the legacy of slavery across America.',
+        'https://covers.openlibrary.org/b/id/012345-L.jpg', 23.50);
