@@ -1,8 +1,10 @@
 package org.thivernale.catalogservice.domain;
 
-class ProductMapper {
-    static ProductDto mapToDto(Product product) {
-        return new ProductDto(product.getCode(), product.getName(), product.getDescription(),
-            product.getImageUrl(), product.getPrice());
-    }
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+interface ProductMapper {
+    ProductDto toDto(Product product);
 }

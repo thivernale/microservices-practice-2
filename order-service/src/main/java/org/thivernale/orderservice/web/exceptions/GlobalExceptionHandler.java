@@ -1,17 +1,17 @@
-package org.thivernale.catalogservice.web.exceptions;
+package org.thivernale.orderservice.web.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.thivernale.catalogservice.domain.ProductNotFoundException;
+import org.thivernale.orderservice.domain.OrderNotFoundException;
 
 import java.time.Instant;
 
 @RestControllerAdvice
 class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String SERVICE_NAME = "catalog-service";
+    private static final String SERVICE_NAME = "order-service";
 
     @ExceptionHandler(exception = Exception.class)
     ProblemDetail handleException(Exception ex) {
@@ -26,10 +26,10 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler(exception = ProductNotFoundException.class)
-    ProblemDetail handleProductNotFoundException(ProductNotFoundException ex) {
+    @ExceptionHandler(exception = OrderNotFoundException.class)
+    ProblemDetail handleOrderNotFoundException(OrderNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-        problemDetail.setTitle("Product Not Found");
+        problemDetail.setTitle("Order Not Found");
 //        problemDetail.setType(NOT_FOUND_TYPE);
         problemDetail.setProperty("service", SERVICE_NAME);
         problemDetail.setProperty("error_category", "Generic");
