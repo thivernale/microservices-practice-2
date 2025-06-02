@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.thivernale.orderservice.client.catalog.CatalogServiceClient;
 import org.thivernale.orderservice.client.catalog.ProductDto;
+import org.thivernale.orderservice.client.catalog.ProductServiceClient;
 import org.thivernale.orderservice.domain.models.CreateOrderRequest;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderValidator implements Validator {
-    private final CatalogServiceClient catalogServiceClient;
+    private final ProductServiceClient productServiceClient;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -35,7 +35,7 @@ public class OrderValidator implements Validator {
                         .toList()
                         .indexOf(orderItem);
 
-                    Optional<ProductDto> productDto = catalogServiceClient.findByCode(orderItem.code());
+                    Optional<ProductDto> productDto = productServiceClient.findByCode(orderItem.code());
 
                     if (productDto.isEmpty()) {
                         errors.rejectValue("orderItems[%d].code".formatted(idx), null, "Product not found: [%d] %s".formatted(idx, orderItem.code()));
