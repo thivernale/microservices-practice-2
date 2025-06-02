@@ -17,8 +17,12 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final OrderValidator orderValidator;
 
     public CreateOrderResponse createOrder(String username, CreateOrderRequest request) {
+
+        orderValidator.validate(request);
+
         Order order = orderMapper.toEntity(request);
         order.setOrderNumber(UUID.randomUUID()
             .toString());

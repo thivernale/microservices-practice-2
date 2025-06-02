@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.thivernale.orderservice.domain.InvalidOrderException;
 import org.thivernale.orderservice.domain.OrderNotFoundException;
 
 import java.time.Instant;
@@ -42,6 +43,18 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(exception = InvalidOrderException.class)
+    ProblemDetail handleInvalidOrderException(InvalidOrderException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setTitle("Invalid Order Creation Request");
+//        problemDetail.setType(BAD_REQUEST_TYPE);
+        problemDetail.setProperty("service", SERVICE_NAME);
+        problemDetail.setProperty("error_category", "Generic");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return problemDetail;
+    }
+
     @Override
     @Nullable
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -52,7 +65,11 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         ProblemDetail problemDetail = ex.getBody();
 //        problemDetail.setType(BAD_REQUEST_TYPE);
-        List<String> errors = ex.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        List<String> errors = ex.getBindingResult()
+            .getAllErrors()
+            .stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .toList();
         problemDetail.setProperty("errors", errors);
         problemDetail.setProperty("service", SERVICE_NAME);
         problemDetail.setProperty("error_category", "Generic");
