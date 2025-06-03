@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 import org.thivernale.orderservice.AbstractIT;
+import org.thivernale.orderservice.client.catalog.ProductDto;
+import org.thivernale.orderservice.domain.models.CreateOrderRequest;
 import org.thivernale.orderservice.domain.models.OrderSummaryDto;
 import org.thivernale.orderservice.testdata.TestDataFactory;
 
@@ -23,15 +25,35 @@ class OrderControllerIT extends AbstractIT {
     class CreateOrderTests {
         @Test
         public void shouldCreateOrder() {
+            CreateOrderRequest request = TestDataFactory.createValidOrderRequest();
+
+            // mock product response from catalog service for each order item
+            request.orderItems()
+                .stream()
+                .map(item -> new ProductDto(item.code(), item.name(), "", "", item.price()))
+                .forEach(AbstractIT::mockProductDtoResponse);
+
             given()
                 .contentType(ContentType.JSON)
-                .body(TestDataFactory.createValidOrderRequest())
+                .body(request)
                 .when()
                 .post("/api/orders")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("orderNumber", any(String.class))
-            ;
+                .body("orderNumber", any(String.class));
+        }
+
+        @Test
+        public void shouldReturnBadRequestWhenMandatoryDataIsMissing() {
+            CreateOrderRequest request = TestDataFactory.createOrderRequestWithNoItems();
+
+            given()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/orders")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }
 
