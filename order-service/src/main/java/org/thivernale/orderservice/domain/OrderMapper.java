@@ -2,7 +2,10 @@ package org.thivernale.orderservice.domain;
 
 import org.mapstruct.*;
 import org.thivernale.orderservice.domain.models.CreateOrderRequest;
+import org.thivernale.orderservice.domain.models.OrderCreatedEvent;
 import org.thivernale.orderservice.domain.models.OrderDto;
+
+import java.util.UUID;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 interface OrderMapper {
@@ -21,7 +24,8 @@ interface OrderMapper {
 
     @AfterMapping
     default void linkOrderItems(@MappingTarget Order order) {
-        order.getOrderItems().forEach(orderItem -> orderItem.setOrder(order));
+        order.getOrderItems()
+            .forEach(orderItem -> orderItem.setOrder(order));
     }
 
     OrderDto toDto(Order order);
@@ -30,4 +34,12 @@ interface OrderMapper {
     Order partialUpdate(OrderDto orderDto,
                         @MappingTarget
                         Order order);
+
+    @Mapping(target = "eventId", expression = "java(generateEventId())")
+    OrderCreatedEvent toOrderCreatedEvent(Order order);
+
+    default String generateEventId() {
+        return UUID.randomUUID()
+            .toString();
+    }
 }

@@ -33,6 +33,10 @@ orders:
   cancelled-orders-queue: cancelled-orders
   error-orders-queue: error-orders
 
+app:
+  schedule:
+    publish-events: "*/5 * * * * *"
+
 ## Resilience4J configuration
 resilience4j:
   retry:

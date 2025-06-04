@@ -18,6 +18,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
+    private final OrderEventService orderEventService;
 
     public CreateOrderResponse createOrder(String username, CreateOrderRequest request) {
 
@@ -31,6 +32,8 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
         log.info("Created order with orderNumber: {}", order.getOrderNumber());
+
+        orderEventService.save(orderMapper.toOrderCreatedEvent(savedOrder));
 
         return new CreateOrderResponse(savedOrder.getOrderNumber());
     }

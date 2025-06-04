@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
-    <option name="reLastEntityCreationPackage" value="catalog-service/src/main/java/org/thivernale/orderservice/domain" />
-    <option name="reverseEngineeringLastDbConnectionId" value="01c753c5-6f0c-4d45-ae59-892aed4ba13d__order-service_public" />
+    <option name="reLastEntityCreationPackage" value="catalog-service/src/main/java/org/thivernale/catalogservice" />
+    <option name="reverseEngineeringLastDbConnectionId" value="01c753c5-6f0c-4d45-ae59-892aed4ba13d" />
   </component>
 </project>
