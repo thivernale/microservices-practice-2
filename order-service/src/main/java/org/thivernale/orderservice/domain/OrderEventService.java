@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Named;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.thivernale.orderservice.domain.models.OrderCancelledEvent;
 import org.thivernale.orderservice.domain.models.OrderCreatedEvent;
+import org.thivernale.orderservice.domain.models.OrderDeliveredEvent;
+import org.thivernale.orderservice.domain.models.OrderErrorEvent;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +21,16 @@ public class OrderEventService {
     private final ObjectMapper objectMapper;
     private final OrderEventPublisher orderEventPublisher;
 
-    void save(OrderCreatedEvent dto) {
-        orderEventRepository.save(orderEventMapper.toEntity(dto, this));
+    void save(Object payload) {
+        OrderEvent orderEvent = switch (payload) {
+            case OrderCreatedEvent e -> orderEventMapper.toEntity(e, this);
+            case OrderDeliveredEvent e -> orderEventMapper.toEntity(e, this);
+            case OrderCancelledEvent e -> orderEventMapper.toEntity(e, this);
+            case OrderErrorEvent e -> orderEventMapper.toEntity(e, this);
+            default -> throw new IllegalStateException("Unexpected value: " + payload.getClass());
+        };
+
+        orderEventRepository.save(orderEvent);
     }
 
     @Named("toJsonPayload")
@@ -40,17 +51,15 @@ public class OrderEventService {
     }
 
     public void publishEvents() {
-        log.info("Publishing order events");
         orderEventRepository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"))
             .forEach(orderEvent -> {
                 Class<?> clazz = switch (orderEvent.getType()) {
                     case CREATED -> OrderCreatedEvent.class;
-                    case DELIVERED -> null;
-                    case CANCELLED -> null;
-                    case ERROR -> null;
+                    case DELIVERED -> OrderDeliveredEvent.class;
+                    case CANCELLED -> OrderCancelledEvent.class;
+                    case ERROR -> OrderErrorEvent.class;
                 };
                 orderEventPublisher.publish(fromJsonPayload(orderEvent.getPayload(), clazz));
-
                 orderEventRepository.deleteById(orderEvent.getId());
             });
     }

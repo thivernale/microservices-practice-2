@@ -6,21 +6,21 @@ import net.javacrumbs.shedlock.core.LockAssert;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.thivernale.orderservice.domain.OrderEventService;
+import org.thivernale.orderservice.domain.OrderService;
 
 import java.time.Instant;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class OrderEventPublisherJob {
-    private final OrderEventService orderEventService;
+class OrderProcessingJob {
+    private final OrderService orderService;
 
-    @Scheduled(cron = "${app.schedule.publish-events:-}")
-    @SchedulerLock(name = "publishOrderEvents")
+    @Scheduled(cron = "${app.schedule.process-orders:-}")
+    @SchedulerLock(name = "processOrders")
     public void publishEvents() {
         LockAssert.assertLocked();
-        log.info("Publishing new order events at {}", Instant.now());
-        orderEventService.publishEvents();
+        log.info("Processing orders at {}", Instant.now());
+        orderService.processOrders();
     }
 }

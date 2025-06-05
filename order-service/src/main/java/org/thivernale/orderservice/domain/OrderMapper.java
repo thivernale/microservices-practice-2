@@ -1,9 +1,7 @@
 package org.thivernale.orderservice.domain;
 
 import org.mapstruct.*;
-import org.thivernale.orderservice.domain.models.CreateOrderRequest;
-import org.thivernale.orderservice.domain.models.OrderCreatedEvent;
-import org.thivernale.orderservice.domain.models.OrderDto;
+import org.thivernale.orderservice.domain.models.*;
 
 import java.util.UUID;
 
@@ -37,6 +35,20 @@ interface OrderMapper {
 
     @Mapping(target = "eventId", expression = "java(generateEventId())")
     OrderCreatedEvent toOrderCreatedEvent(Order order);
+
+    @Mapping(target = "eventId", expression = "java(generateEventId())")
+    @Mapping(target = "createdAt", source = "updatedAt")
+    OrderDeliveredEvent toOrderDeliveredEvent(Order order);
+
+    @Mapping(target = "eventId", expression = "java(generateEventId())")
+    @Mapping(target = "createdAt", source = "updatedAt")
+    @Mapping(target = "reason", expression = "java(reason)")
+    OrderCancelledEvent toOrderCancelledEvent(Order order, @Context String reason);
+
+    @Mapping(target = "eventId", expression = "java(generateEventId())")
+    @Mapping(target = "createdAt", source = "updatedAt")
+    @Mapping(target = "reason", expression = "java(reason)")
+    OrderErrorEvent toOrderErrorEvent(Order order, @Context String reason);
 
     default String generateEventId() {
         return UUID.randomUUID()

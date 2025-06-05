@@ -36,6 +36,7 @@ orders:
 app:
   schedule:
     publish-events: "*/5 * * * * *"
+    process-orders: "*/10 * * * * *"
 
 ## Resilience4J configuration
 resilience4j:
