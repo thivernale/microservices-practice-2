@@ -36,6 +36,7 @@
         <instancio-junit.version>5.0.2</instancio-junit.version>
         <wiremock-testcontainers-module.version>1.0-alpha-14</wiremock-testcontainers-module.version>
         <wiremock-spring-boot-starter.version>1.0.0</wiremock-spring-boot-starter.version>
+        <shedlock.version>6.8.0</shedlock.version>
     </properties>
     <dependencies>
         <dependency>
@@ -107,6 +108,16 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
+            <version>${shedlock.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-jdbc-template</artifactId>
+            <version>${shedlock.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
