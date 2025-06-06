@@ -1,5 +1,6 @@
 package org.thivernale.orderservice.domain;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.thivernale.orderservice.domain.models.OrderStatus;
 import org.thivernale.orderservice.domain.models.OrderSummaryDto;
@@ -9,6 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 interface OrderRepository extends JpaRepository<Order, Long> {
+    @EntityGraph(attributePaths = "orderItems")
+    /*@Query("""
+        select distinct o from Order o left join fetch o.orderItems
+                where o.username = :username and o.orderNumber = :orderNumber
+        """)*/
     Optional<Order> findByUsernameAndOrderNumber(String username, String orderNumber);
 
     Optional<Order> findByOrderNumber(String orderNumber);
