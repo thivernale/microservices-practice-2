@@ -1,0 +1,8 @@
+# Usage Guide https://nektosact.com/usage/index.html
+
+#--container-architecture=linux/amd64
+--action-offline-mode
+# Customizing Docker host detection: https://java.testcontainers.org/features/configuration/#customizing-docker-host-detection
+--env TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+# Generate personal access token: https://github.com/settings/tokens
+#-s GITHUB_TOKEN=

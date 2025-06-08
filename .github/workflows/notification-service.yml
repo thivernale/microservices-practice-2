@@ -1,19 +1,19 @@
-name: Order Service
+name: Notification Service
 
 on:
   push:
     branches: [ 'main' ]
-    paths: [ 'order-service/**' ] # , 'deployment/docker-compose/*.yml', '.github/workflows/order-service.yml'
+    paths: [ 'notification-service/**' ] # , 'deployment/docker-compose/*.yml', '.github/workflows/catalog-service.yml'
   workflow_dispatch:
 
 defaults:
   run:
-    working-directory: order-service
+    working-directory: notification-service
 
 env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>, github.repository_owner as <account>
-  IMAGE_NAME: ${{ github.repository_owner }}/order-service
+  IMAGE_NAME: ${{ github.repository_owner }}/notification-service
 
 jobs:
   build:
