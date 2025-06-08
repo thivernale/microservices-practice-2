@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @ConfigurationProperties(prefix = "notifications")
 public record ApplicationProperties(
+    String supportEmail,
     String orderEventsExchange,
     String newOrdersQueue,
     String deliveredOrdersQueue,
