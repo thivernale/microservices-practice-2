@@ -1,19 +1,19 @@
-name: Notification Service
+name: API Gateway
 
 on:
   push:
     branches: [ 'main' ]
-    paths: [ 'notification-service/**' ] # , 'deployment/docker-compose/*.yml', '.github/workflows/notification-service.yml'
+    paths: [ 'api-gateway/**' ] # , 'deployment/docker-compose/*.yml', '.github/workflows/api-gateway.yml'
   workflow_dispatch:
 
 defaults:
   run:
-    working-directory: notification-service
+    working-directory: api-gateway
 
 env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>, github.repository_owner as <account>
-  IMAGE_NAME: ${{ github.repository_owner }}/notification-service
+  IMAGE_NAME: ${{ github.repository_owner }}/api-gateway
 
 jobs:
   build:

@@ -25,7 +25,7 @@ services:
     image: ghcr.io/thivernale/order-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      ORDERS_CATALOG-SERVICE-URL: http://catalog-service:8081
+      ORDERS_CATALOG-SERVICE-URL: http://api-gateway:8080/catalog
       DB_URL: jdbc:postgresql://bookstore-db:5432/order-service
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
@@ -70,6 +70,21 @@ services:
         condition: service_healthy
       bookstore-mailhog:
         condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+
+  api-gateway:
+    container_name: api-gateway
+    image: ghcr.io/thivernale/api-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CATALOG_SERVICE_URL: http://catalog-service:8081
+      ORDER_SERVICE_URL: http://order-service:8082
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
     deploy:
       resources:
         limits:

@@ -4,7 +4,7 @@ ACTION=${1:-up}
 
 if [ "$ACTION" = "down" ]; then
   echo 'down'
-  docker compose -f deployment/docker-compose/infra.yml -f deployment/docker-compose/apps.yml down catalog-service order-service
+  docker compose -f deployment/docker-compose/infra.yml -f deployment/docker-compose/apps.yml down catalog-service order-service notification-service api-gateway
 else
 #./mvnw -pl catalog-service/ spring-boot:build-image -DskipTests
   echo 'up'
