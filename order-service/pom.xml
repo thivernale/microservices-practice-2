@@ -219,6 +219,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
+                        <builder>paketobuildpacks/builder-noble-java-tiny:latest</builder>
+                        <pullPolicy>IF_NOT_PRESENT</pullPolicy>
                         <name>ghcr.io/thivernale/${project.artifactId}<!--:${project.version}--></name>
                         <publish>false</publish>
                     </image>
