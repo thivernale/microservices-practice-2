@@ -37,6 +37,8 @@ app:
   schedule:
     publish-events: "*/5 * * * * *"
     process-orders: "*/10 * * * * *"
+  urls:
+    api-gateway: http://localhost:8080
 
 ## Resilience4J configuration
 resilience4j:

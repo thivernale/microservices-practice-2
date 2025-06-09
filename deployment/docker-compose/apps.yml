@@ -9,6 +9,7 @@ services:
       DB_URL: jdbc:postgresql://bookstore-db:5432/catalog-service
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+      APP_URLS_API-GATEWAY: http://api-gateway:8080
     ports:
       - "8081:8081"
     restart: unless-stopped
@@ -33,6 +34,7 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
+      APP_URLS_API-GATEWAY: http://api-gateway:8080
     ports:
       - "8082:8082"
     restart: unless-stopped
