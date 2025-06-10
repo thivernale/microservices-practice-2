@@ -30,7 +30,7 @@ services:
 
   bookstore-rabbitmq:
     container_name: bookstore-rabbitmq
-    image: 'rabbitmq:4.1.0-management'
+    image: rabbitmq:4.1.0-management
     environment:
       - 'RABBITMQ_DEFAULT_PASS=guest'
       - 'RABBITMQ_DEFAULT_USER=guest'
@@ -54,11 +54,41 @@ services:
     ports:
       - '1025:1025'
       - '8025:8025'
+    deploy:
+      resources:
+        limits:
+          memory: 100m
+
+  bookstore-keycloak:
+    container_name: bookstore-keycloak
+    image: quay.io/keycloak/keycloak:26.2
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KC_BOOTSTRAP_ADMIN_USERNAME: 'admin'
+      KC_BOOTSTRAP_ADMIN_PASSWORD: 'admin'
+      KC_DB: dev-file
+    ports:
+      - '8180:8080'
+    volumes:
+      - 'keycloak-data:/opt/keycloak/data'
+      - './keycloak:/opt/keycloak/data/import'
+    command:
+      - 'start-dev'
+      - '--import-realm'
+      - '--db=dev-file'
+    deploy:
+      resources:
+        limits:
+          memory: 1000m
 
 #networks:
 #  db:
 #    driver: bridge
 #
-#volumes:
-#  db:
-#    driver: local
+volumes:
+  #  db:
+  #    driver: local
+  keycloak-data:
+    driver: local

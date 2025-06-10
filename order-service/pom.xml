@@ -37,6 +37,7 @@
         <wiremock-testcontainers-module.version>1.0-alpha-14</wiremock-testcontainers-module.version>
         <wiremock-spring-boot-starter.version>1.0.0</wiremock-spring-boot-starter.version>
         <shedlock.version>6.8.0</shedlock.version>
+        <testcontainers-keycloak.version>3.5.1</testcontainers-keycloak.version>
     </properties>
     <dependencies>
         <dependency>
@@ -97,6 +98,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -171,6 +180,17 @@
             <groupId>org.instancio</groupId>
             <artifactId>instancio-junit</artifactId>
             <version>${instancio-junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dasniko</groupId>
+            <artifactId>testcontainers-keycloak</artifactId>
+            <version>${testcontainers-keycloak.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

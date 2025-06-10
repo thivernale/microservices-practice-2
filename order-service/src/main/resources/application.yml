@@ -13,6 +13,12 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
+  # OAuth2 (Keycloak instance)
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${app.urls.issuer-uri}
 server:
   port: 8082
   shutdown: graceful
@@ -39,6 +45,8 @@ app:
     process-orders: "*/10 * * * * *"
   urls:
     api-gateway: http://localhost:8080
+    oauth2-server: http://localhost:8180
+    issuer-uri: ${app.urls.oauth2-server}/realms/bookstore
 
 ## Resilience4J configuration
 resilience4j:

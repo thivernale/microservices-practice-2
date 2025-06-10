@@ -36,6 +36,7 @@ class OrderControllerIT extends AbstractIT {
             given()
                 .contentType(ContentType.JSON)
                 .body(request)
+                .header("Authorization", "Bearer " + getToken())
                 .when()
                 .post("/api/orders")
                 .then()
@@ -50,6 +51,7 @@ class OrderControllerIT extends AbstractIT {
             given()
                 .contentType(ContentType.JSON)
                 .body(request)
+                .header("Authorization", "Bearer " + getToken())
                 .when()
                 .post("/api/orders")
                 .then()
@@ -64,6 +66,7 @@ class OrderControllerIT extends AbstractIT {
             String orderNumber = "5b36246b-e7a1-431f-99db-08daafe9bc5b";
             given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + getToken())
                 .when()
                 .get("/api/orders/{orderNumber}", orderNumber)
                 .then()
@@ -81,6 +84,7 @@ class OrderControllerIT extends AbstractIT {
         public void shouldGetOrders() {
             List<OrderSummaryDto> orderDtos = given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + getToken())
                 .when()
                 .get("/api/orders")
                 .then()

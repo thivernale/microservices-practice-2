@@ -8,8 +8,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.thivernale.orderservice.WithMockJwtAuth;
 import org.thivernale.orderservice.domain.OrderService;
 import org.thivernale.orderservice.domain.SecurityService;
 import org.thivernale.orderservice.domain.models.CreateOrderRequest;
@@ -52,10 +54,12 @@ class OrderControllerTest {
 
     @ParameterizedTest(name = "[{index}]-{0}")
     @MethodSource("createOrderRequestProvider")
+    @WithMockJwtAuth
     public void shouldReturnBadRequestWhenOrderPayloadIsInvalid(CreateOrderRequest request) throws Exception {
         given(orderService.createOrder(eq("user"), any(CreateOrderRequest.class))).willReturn(null);
 
         mockMvc.perform(post("/api/orders")
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status()

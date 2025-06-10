@@ -35,6 +35,7 @@ services:
       RABBITMQ_USERNAME: guest
       RABBITMQ_PASSWORD: guest
       APP_URLS_API-GATEWAY: http://api-gateway:8080
+      APP_URLS_OAUTH2-SERVER: http://keycloak:8180
     ports:
       - "8082:8082"
     restart: unless-stopped
