@@ -1,5 +1,6 @@
 package org.thivernale.orderservice.web.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/orders")
 @Slf4j
 @RequiredArgsConstructor
+@SecurityRequirement(name = "security_auth")
 class OrderController {
     private final OrderService orderService;
     private final SecurityService securityService;
