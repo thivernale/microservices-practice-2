@@ -1,0 +1,61 @@
+name: microservices-practice-2
+
+services:
+
+  prometheus:
+    container_name: bookstore-prometheus
+    image: prom/prometheus:v2.46.0
+    command:
+      - --enable-feature=exemplar-storage
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+
+  promtail:
+    container_name: bookstore-promtail
+    image: grafana/promtail:3.0.0
+    volumes:
+      - ./promtail/promtail-docker-config.yml:/etc/promtail/docker-config.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "--config.file=/etc/promtail/docker-config.yml"
+
+  loki:
+    container_name: bookstore-loki
+    image: grafana/loki:main
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"
+    depends_on:
+      - promtail
+
+  #  tempo:
+  #    image: grafana/tempo:2.2.2
+  #    command: [ "-config.file=/etc/tempo.yaml" ]
+  #    volumes:
+  #      - ./tempo/tempo.yml:/etc/tempo.yaml:ro
+  #      - ../data/tempo:/tmp/tempo
+  #    ports:
+  #      - "3110:3100"  # Tempo
+  #      - "9411:9411" # Zipkin
+
+  grafana:
+    container_name: bookstore-grafana
+    image: grafana/grafana:10.1.0
+    volumes:
+      #      - ./grafana:/etc/grafana/provisioning/datasources:ro
+      - grafana_data:/var/lib/grafana
+    environment:
+      #      - GF_AUTH_ANONYMOUS_ENABLED=true
+      #      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      #      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+
+volumes:
+  grafana_data: { }

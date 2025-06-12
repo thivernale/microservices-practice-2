@@ -20,6 +20,8 @@ services:
       resources:
         limits:
           memory: 700m
+    labels:
+      logging: "promtail"
 
   order-service:
     container_name: order-service
@@ -48,6 +50,8 @@ services:
       resources:
         limits:
           memory: 700m
+    labels:
+      logging: "promtail"
 
   notification-service:
     container_name: notification-service
@@ -77,6 +81,8 @@ services:
       resources:
         limits:
           memory: 700m
+    labels:
+      logging: "promtail"
 
   api-gateway:
     container_name: api-gateway
@@ -92,3 +98,5 @@ services:
       resources:
         limits:
           memory: 700m
+    labels:
+      logging: "promtail"
