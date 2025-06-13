@@ -10,6 +10,8 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       APP_URLS_API-GATEWAY: http://api-gateway:8080
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://bookstore-tempo:9411
     ports:
       - "8081:8081"
     restart: unless-stopped
@@ -38,6 +40,8 @@ services:
       RABBITMQ_PASSWORD: guest
       APP_URLS_API-GATEWAY: http://api-gateway:8080
       APP_URLS_OAUTH2-SERVER: http://keycloak:8180
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://bookstore-tempo:9411
     ports:
       - "8082:8082"
     restart: unless-stopped
@@ -49,7 +53,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 700m
+          memory: 1000m
     labels:
       logging: "promtail"
 
@@ -67,6 +71,8 @@ services:
       RABBITMQ_PASSWORD: guest
       MAIL_HOST: bookstore-mailhog
       MAIL_PORT: 1025
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://bookstore-tempo:9411
     ports:
       - "8083:8083"
     restart: unless-stopped
@@ -91,6 +97,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       CATALOG_SERVICE_URL: http://catalog-service:8081
       ORDER_SERVICE_URL: http://order-service:8082
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://bookstore-tempo:9411
     ports:
       - "8080:8080"
     restart: unless-stopped

@@ -53,6 +53,14 @@ management:
   info:
     git:
       mode: full
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1
+
 springdoc:
   swagger-ui:
     use-root-path: true
