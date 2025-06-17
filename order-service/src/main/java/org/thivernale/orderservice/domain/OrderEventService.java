@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Named;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thivernale.orderservice.domain.models.OrderCancelledEvent;
 import org.thivernale.orderservice.domain.models.OrderCreatedEvent;
 import org.thivernale.orderservice.domain.models.OrderDeliveredEvent;
@@ -15,6 +16,7 @@ import org.thivernale.orderservice.domain.models.OrderErrorEvent;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class OrderEventService {
     private final OrderEventRepository orderEventRepository;
     private final OrderEventMapper orderEventMapper;
