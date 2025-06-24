@@ -40,11 +40,13 @@ public class OrderService {
         return new CreateOrderResponse(savedOrder.getOrderNumber());
     }
 
+    @Transactional(readOnly = true)
     public Optional<OrderDto> getUserOrder(String username, String orderNumber) {
         return orderRepository.findByUsernameAndOrderNumber(username, orderNumber)
             .map(orderMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
     public List<OrderSummaryDto> getOrders(String username) {
         return orderRepository.findOrdersByUsername(username);
     }
