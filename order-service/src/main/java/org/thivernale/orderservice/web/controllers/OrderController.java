@@ -1,6 +1,8 @@
 package org.thivernale.orderservice.web.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @SecurityRequirement(name = "security_auth")
+@Tag(name = "Orders", description = "API for managing orders")
 class OrderController {
     private final OrderService orderService;
     private final SecurityService securityService;
@@ -34,6 +37,7 @@ class OrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get orders", description = "Get orders of currently logged in user")
     List<OrderSummaryDto> getOrders() {
         String username = securityService.getCurrentUsername();
         log.info("Getting orders for user {}", username);
